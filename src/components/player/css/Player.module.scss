@@ -1,0 +1,56 @@
+.time-control {
+	display: block;
+	justify-content: space-between;
+	align-items: center;
+	.left {
+		padding-right: 20px;
+	}
+	.middle {
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+	.right {
+		padding-left: 20px;
+	}
+}
+
+.left,
+.middle,
+.right {
+	display: inline-block; /* Display the paragraphs as inline-block */
+	vertical-align: middle; /* Vertically align them in the middle */
+}
+
+.play,
+.pause,
+.skip-back,
+.skip-forward {
+	cursor: pointer;
+	&:hover {
+		transform: scale(1.1);
+	}
+	&:active {
+		transform: scale(1);
+	}
+}
+
+.play-control {
+	display: flex;
+	justify-content: center;
+}
+
+.toggle-play {
+	padding: 0 50px 0 50px;
+}
+
+.skip-back {
+	padding-right: 50px;
+}
+
+.skip-forward {
+	padding-left: 50px;
+}
+
+input {
+	// width: 500px;
+}
