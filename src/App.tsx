@@ -28,9 +28,9 @@ function App() {
 		backgroundImage: `url(${songs[isCurrentIndex].cover})`,
 		backgroundRepeat: 'no-repeat',
 		// backgroundPosition: 'center',
-		// backgroundSize: 'cover',
+		backgroundSize: 'auto',
 		width: '100%',
-		height: '120%',
+		height: '100%',
 		backgroundColor: 'rgba(255, 255, 255, 0.25)',
 	};
 
