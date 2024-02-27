@@ -22,7 +22,8 @@ function App() {
 		backgroundPosition: 'center',
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: 'cover',
-		height: '100%',
+		maxHeight: '100vh',
+		maxWidth: '100vw',
 	};
 
 	return (
