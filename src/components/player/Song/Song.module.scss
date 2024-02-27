@@ -6,7 +6,7 @@
 	position: relative;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-evenly;
+	justify-content: center;
 	backdrop-filter: blur(100px) grayscale(20%);
 	-webkit-backdrop-filter: blur(100px) grayscale(20%);
 
@@ -15,7 +15,7 @@
 		max-height: 100%;
 		max-width: 50%;
 		border-radius: 5% 5% / 5% 5%;
-		box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
+		// box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
 	}
 	h2 {
 		// padding: 3rem 1rem 1rem 1rem;

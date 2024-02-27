@@ -79,8 +79,8 @@ input {
 		}
 	}
 
-	.play,
-	.pause,
+	.toggle-play,
+	.toggle-pause,
 	.skip-back,
 	.skip-forward {
 		&:active {
