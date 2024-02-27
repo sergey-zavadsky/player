@@ -24,6 +24,7 @@ function App() {
 		backgroundSize: 'cover',
 		maxHeight: '100vh',
 		maxWidth: '100vw',
+		overflow: 'hidden',
 	};
 
 	return (
