@@ -26,9 +26,9 @@ function App() {
 
 	const backgroundImageStyle = {
 		backgroundImage: `url(${songs[isCurrentIndex].cover})`,
-		backgroundRepeat: 'no-repeat',
-		backgroundPosition: 'center',
-		backgroundSize: 'cover',
+		// backgroundRepeat: 'no-repeat',
+		// backgroundPosition: 'center',
+		// backgroundSize: 'cover',
 		width: '100vw',
 		height: '100vh',
 		backgroundColor: 'rgba(255, 255, 255, 0.25)',
