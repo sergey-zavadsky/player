@@ -56,8 +56,8 @@ input {
 		user-select: none;
 	}
 
-	.play,
-	.pause,
+	.toggle-play,
+	.toggle-pause,
 	.skip-back,
 	.skip-forward {
 		&:hover {
