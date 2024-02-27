@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import { useRecoilState } from 'recoil';
 import { currentSongAtom } from '../src/atoms/songState';
@@ -8,6 +8,13 @@ import data from '../src/util/index';
 function App() {
 	const [isCurrentIndex] = useRecoilState(currentSongAtom);
 	const [songs] = useState(data);
+
+	useEffect(() => {
+		document.body.style.overflow = 'hidden';
+		return () => {
+			document.body.style.overflow = 'scroll';
+		};
+	}, []);
 
 	//! TODO Add ease animation to background change
 	// const changeBackground = () => {
