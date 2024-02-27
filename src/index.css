@@ -13,6 +13,13 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+html,
+body,
+#root,
+#root > div {
+	height: 100%;
+}
+
 p {
 	font-weight: 800;
 	color: #a2a3af;
@@ -24,6 +31,7 @@ p:hover {
 
 body {
 	min-height: 100vh;
+	min-width: 100vh;
 }
 
 h2 {
