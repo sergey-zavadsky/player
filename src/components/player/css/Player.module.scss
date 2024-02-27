@@ -29,7 +29,7 @@
 
 .toggle-play,
 .toggle-pause {
-	padding: 0 70px 0 70px;
+	padding: 0 calc(65px - 5vh) 0 calc(65px - 5vh);
 	flex-grow: 1;
 	max-width: 140px; /* Consider adjusting if icons are smaller/larger */
 	width: 140px;
