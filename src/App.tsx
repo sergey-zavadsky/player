@@ -29,8 +29,8 @@ function App() {
 		backgroundPosition: 'center',
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: 'cover',
-		maxHeight: '100vh',
-		maxWidth: '100vw',
+		height: '100vh',
+		width: '100vw',
 		overflow: 'hidden',
 	};
 
