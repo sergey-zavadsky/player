@@ -21,36 +21,26 @@
 	vertical-align: middle; /* Vertically align them in the middle */
 }
 
-.play,
-.pause,
-.skip-back,
-.skip-forward {
-	cursor: pointer;
-	&:hover {
-		transform: scale(1.1);
-	}
-	&:active {
-		transform: scale(1);
-	}
-}
-
 .play-control {
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	justify-items: center;
 }
 
 .toggle-play,
 .toggle-pause {
-	padding: 0 50px 0 50px;
+	padding: 0 100px 0 100px;
+	flex-grow: 1;
+	max-width: 140px; /* Consider adjusting if icons are smaller/larger */
+	width: 140px;
 }
 
 .skip-back {
-	padding-right: 50px;
+	// padding-right: 50px;
 }
 
 .skip-forward {
-	padding-left: 50px;
+	// padding-left: 50px;
 }
 
 input {
@@ -58,13 +48,43 @@ input {
 }
 
 @media (hover: hover) {
+	.toggle-pause,
+	.toggle-play,
+	.skip-back,
+	.skip-forward {
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.play,
+	.pause,
+	.skip-back,
+	.skip-forward {
+		&:hover {
+			transform: scale(1.1);
+		}
+		&:active {
+			transform: scale(1);
+		}
+	}
 }
 
 @media (hover: none) {
 	* {
 		*:active,
-		*:focus {
+		*:focus,
+		*:hover {
 			outline: none;
+			cursor: none;
+		}
+	}
+
+	.play,
+	.pause,
+	.skip-back,
+	.skip-forward {
+		&:active {
+			transform: scale(1.1);
 		}
 	}
 }
