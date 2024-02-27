@@ -148,30 +148,35 @@ const Player = ({
 				<p className={`${styles['right']}`}>{getTime(songInfo.durationTime)}</p>
 			</div>
 			<div className={styles['play-control']}>
-				<FontAwesomeIcon
-					ref={skipBackRef}
-					className={`${styles['skip-back']}`}
-					size="4x"
-					icon={faAngleLeft}
-					onClick={() => playPrev()}
-					tabIndex={0}
-				/>
-				<FontAwesomeIcon
-					className={`${!isPlaying ? styles['play'] : styles['toggle-play']} ${
-						styles['pause']
+				<div className={`${styles['skip-back']}`}>
+					<FontAwesomeIcon
+						ref={skipBackRef}
+						size="4x"
+						icon={faAngleLeft}
+						onClick={() => playPrev()}
+						tabIndex={0}
+					/>
+				</div>
+				<div
+					className={`${
+						!isPlaying ? styles['toggle-play'] : styles['toggle-pause']
 					}`}
-					size="4x"
-					icon={!isPlaying ? faPlay : faPause}
-					onClick={() => playCurrent()}
-					tabIndex={0}
-				/>
-				<FontAwesomeIcon
-					className={styles['skip-forward']}
-					size="4x"
-					icon={faAngleRight}
-					onClick={() => playNext()}
-					tabIndex={0}
-				/>
+				>
+					<FontAwesomeIcon
+						size="4x"
+						icon={!isPlaying ? faPlay : faPause}
+						onClick={() => playCurrent()}
+						tabIndex={0}
+					/>
+				</div>
+				<div className={styles['skip-forward']}>
+					<FontAwesomeIcon
+						size="4x"
+						icon={faAngleRight}
+						onClick={() => playNext()}
+						tabIndex={0}
+					/>
+				</div>
 			</div>
 
 			<audio

@@ -37,9 +37,11 @@
 .play-control {
 	display: flex;
 	justify-content: center;
+	justify-items: center;
 }
 
-.toggle-play {
+.toggle-play,
+.toggle-pause {
 	padding: 0 50px 0 50px;
 }
 
@@ -53,4 +55,16 @@
 
 input {
 	// width: 500px;
+}
+
+@media (hover: hover) {
+}
+
+@media (hover: none) {
+	* {
+		*:active,
+		*:focus {
+			outline: none;
+		}
+	}
 }
