@@ -5,6 +5,7 @@
 	align-items: center;
 	justify-content: center;
 	backdrop-filter: blur(100px) grayscale(20%);
+	-webkit-backdrop-filter: blur(100px) grayscale(20%);
 
 	img {
 		width: calc(30% - 20px);
