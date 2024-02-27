@@ -1,7 +1,7 @@
 .song-container {
-	height: 100vh;
+	height: 100%;
 	width: 100%;
-	// padding: 20vh 0 20vh 0;
+	// padding-bottom: 200px;
 	display: flex;
 	position: relative;
 	flex-direction: column;
@@ -26,12 +26,12 @@
 	}
 }
 
-@media screen and (orientation: landscape) {
-	._song-container {
-		display: flex;
-		flex-direction: row;
-		padding: 0 20vw;
-		align-items: center;
-		// justify-content: center;
-	}
-}
+// @media screen and (orientation: landscape) {
+// 	._song-container {
+// 		display: flex;
+// 		flex-direction: row;
+// 		padding: 0 20vw;
+// 		align-items: center;
+// 		// justify-content: center;
+// 	}
+// }
