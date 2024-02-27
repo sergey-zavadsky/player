@@ -17,7 +17,11 @@ const Song = ({ songs }: { songs: ChillHopTrack[] }) => {
 				<meta property="og:image" content={current.cover} />
 			</Helmet>
 			<div className={styles['song-container']}>
-				<img src={current.cover} alt={current.artist} />
+				<img
+					className={styles['img-inside']}
+					src={current.cover}
+					alt={current.artist}
+				/>
 				<h2>{current.name}</h2>
 				<h3>{current.artist}</h3>
 				<Player currentSong={current} songs={songs} />
