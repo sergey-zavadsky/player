@@ -27,8 +27,15 @@ function App() {
 	const backgroundImageStyle = {
 		backgroundImage: `url(${songs[isCurrentIndex].cover})`,
 		backgroundRepeat: 'no-repeat',
+		width: '100%',
+		height: '100%',
 		backgroundSize: 'cover',
 		backgroundColor: 'rgba(255, 255, 255, 0.25)',
+		// Vendor prefixes for broader browser support
+		WebkitBackgroundSize: 'cover', // For Safari and Chrome
+		MozBackgroundSize: 'cover', // For Firefox
+		OBackgroundSize: 'cover', // For Opera
+		msBackgroundSize: 'cover', // For Edge
 	};
 
 	return (

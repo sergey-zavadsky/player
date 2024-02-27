@@ -5,7 +5,10 @@
 	align-items: center;
 	justify-content: center;
 	backdrop-filter: blur(100px) grayscale(20%);
-	-webkit-backdrop-filter: blur(100px) grayscale(20%);
+	-webkit-backdrop-filter: blur(100px) grayscale(20%); /* Safari and Chrome */
+	-moz-backdrop-filter: blur(100px) grayscale(20%); /* Firefox */
+	-ms-backdrop-filter: blur(100px) grayscale(20%); /* Edge */
+	-o-backdrop-filter: blur(100px) grayscale(20%); /* Opera */
 }
 
 .song-container {
