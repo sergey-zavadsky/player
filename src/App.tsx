@@ -30,7 +30,7 @@ function App() {
 		width: '100%',
 		height: '100%',
 		backgroundSize: 'cover',
-		backgroundColor: 'rgba(255, 255, 255, 0.25)',
+		// backgroundColor: 'rgba(255, 255, 255, 0.25)',
 		// Vendor prefixes for broader browser support
 		WebkitBackgroundSize: 'cover', // For Safari and Chrome
 		MozBackgroundSize: 'cover', // For Firefox

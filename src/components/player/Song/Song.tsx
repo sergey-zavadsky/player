@@ -13,9 +13,11 @@ const Song = ({ songs }: { songs: ChillHopTrack[] }) => {
 			<div className={styles['backdrop-container']}>
 				<Helmet>
 					<title>Siarhei Zavadski react player</title>
+					<meta charSet="utf-8" />
 					<meta property="og:title" content={current.artist} />
 					<meta property="og:description" content={current.name} />
 					<meta property="og:image" content={current.cover} />
+					<link rel="canonical" href="https://sergey-zavadsky.github.io/player/" />
 				</Helmet>
 				<div className={styles['song-container']}>
 					<img
@@ -28,7 +30,7 @@ const Song = ({ songs }: { songs: ChillHopTrack[] }) => {
 					<Player currentSong={current} songs={songs} />
 				</div>
 			</div>
-		</>
+		</Pare>
 	);
 };
 
