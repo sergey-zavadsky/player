@@ -109,6 +109,22 @@ const Player = ({
 				playNext();
 			});
 		}
+
+		const updatePositionState = () => {
+			if (
+				audioRef.current &&
+				navigator.mediaSession.playbackState === 'playing'
+			) {
+				navigator.mediaSession.setPositionState({
+					duration: audioRef.current.duration,
+					playbackRate: audioRef.current.playbackRate,
+					position: audioRef.current.currentTime,
+				});
+			}
+		};
+
+		const interval = setInterval(updatePositionState, 1000);
+		return () => clearInterval(interval);
 	}, [currentSong, songs]);
 
 	//* Play if current song is finished
@@ -148,6 +164,7 @@ const Player = ({
 		);
 	};
 
+	//* Keys handler
 	const onKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		const isInputFocused = document.activeElement instanceof HTMLInputElement;
 
