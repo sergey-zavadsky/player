@@ -111,10 +111,7 @@ const Player = ({
 		}
 
 		const updatePositionState = () => {
-			if (
-				audioRef.current &&
-				navigator.mediaSession.playbackState === 'playing'
-			) {
+			if (audioRef.current) {
 				navigator.mediaSession.setPositionState({
 					duration: audioRef.current.duration,
 					playbackRate: audioRef.current.playbackRate,
