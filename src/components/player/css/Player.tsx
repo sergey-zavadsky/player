@@ -23,6 +23,7 @@ const Player = ({
 	const [isLength] = useState(songs.length - 1);
 	const [isCurrentIndex, setCurrentIndex] = useRecoilState(currentSongAtom);
 	const skipBackRef = useRef(null);
+
 	//* Control handlers
 	const playCurrent = () => {
 		if (audioRef.current !== null) {
@@ -73,6 +74,42 @@ const Player = ({
 		currentTime: 0,
 		durationTime: 0,
 	});
+
+	//* Handle mobile apps playing window
+	useEffect(() => {
+		if ('mediaSession' in navigator) {
+			navigator.mediaSession.metadata = new MediaMetadata({
+				title: currentSong.name,
+				artist: currentSong.artist,
+				// album: currentSong.album,
+				artwork: [
+					{ src: currentSong.cover, sizes: '512x512', type: 'image/png' },
+				],
+			});
+
+			navigator.mediaSession.setActionHandler('play', () => {
+				if (audioRef.current) {
+					audioRef.current.play();
+					setPlaying(true);
+				}
+			});
+
+			navigator.mediaSession.setActionHandler('pause', () => {
+				if (audioRef.current) {
+					audioRef.current.pause();
+					setPlaying(false);
+				}
+			});
+
+			navigator.mediaSession.setActionHandler('previoustrack', () => {
+				playPrev();
+			});
+
+			navigator.mediaSession.setActionHandler('nexttrack', () => {
+				playNext();
+			});
+		}
+	}, [currentSong, songs]);
 
 	//* Play if current song is finished
 	useEffect(() => {
