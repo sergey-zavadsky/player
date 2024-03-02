@@ -121,10 +121,7 @@ const Player = ({
 				playNext();
 			});
 		}
-
-		// const interval = setInterval(updatePositionState, 1000);
-		// return () => clearInterval(interval);
-	}, [currentSong, songs, isPlaying]);
+	}, [currentSong, songs]);
 
 	//* Play if current song is finished
 	useEffect(() => {
