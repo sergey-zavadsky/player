@@ -76,6 +76,17 @@ const Player = ({
 	});
 
 	//* Handle mobile apps playing window
+
+	const updatePositionState = () => {
+		if (audioRef.current) {
+			navigator.mediaSession.setPositionState({
+				duration: audioRef.current.duration,
+				playbackRate: audioRef.current.playbackRate,
+				position: audioRef.current.currentTime,
+			});
+		}
+	};
+
 	useEffect(() => {
 		if ('mediaSession' in navigator) {
 			navigator.mediaSession.metadata = new MediaMetadata({
@@ -91,6 +102,7 @@ const Player = ({
 				if (audioRef.current) {
 					audioRef.current.play();
 					setPlaying(true);
+					updatePositionState();
 				}
 			});
 
@@ -110,19 +122,9 @@ const Player = ({
 			});
 		}
 
-		const updatePositionState = () => {
-			if (audioRef.current) {
-				navigator.mediaSession.setPositionState({
-					duration: audioRef.current.duration,
-					playbackRate: audioRef.current.playbackRate,
-					position: audioRef.current.currentTime,
-				});
-			}
-		};
-
-		const interval = setInterval(updatePositionState, 1000);
-		return () => clearInterval(interval);
-	}, [currentSong, songs]);
+		// const interval = setInterval(updatePositionState, 1000);
+		// return () => clearInterval(interval);
+	}, [currentSong, songs, isPlaying]);
 
 	//* Play if current song is finished
 	useEffect(() => {
@@ -231,10 +233,10 @@ const Player = ({
 			</div>
 
 			<audio
-				onTimeUpdate={timeUpdateHandler}
+				onTimeUpdate={(e) => timeUpdateHandler(e)}
 				ref={audioRef}
 				src={currentSong.audio}
-				onLoadedMetadata={timeUpdateHandler}
+				onLoadedMetadata={(e) => timeUpdateHandler(e)}
 			></audio>
 		</div>
 	);

@@ -3,13 +3,13 @@ import Player from '../../player/css/Player';
 import { useRecoilState } from 'recoil';
 import { currentSongAtom } from '../../../atoms/songState';
 import { ChillHopTrack } from '../../../util/index';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 const Song = ({ songs }: { songs: ChillHopTrack[] }) => {
 	const [isCurrentIndex] = useRecoilState(currentSongAtom);
 	const current = songs[isCurrentIndex];
 	return (
-		<>
+		<HelmetProvider>
 			<div className={styles['backdrop-container']}>
 				<Helmet>
 					<title>Siarhei Zavadski react player</title>
@@ -33,7 +33,7 @@ const Song = ({ songs }: { songs: ChillHopTrack[] }) => {
 					<Player currentSong={current} songs={songs} />
 				</div>
 			</div>
-		</>
+		</HelmetProvider>
 	);
 };
 
