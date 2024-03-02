@@ -110,15 +110,18 @@ const Player = ({
 				if (audioRef.current) {
 					audioRef.current.pause();
 					setPlaying(false);
+					updatePositionState();
 				}
 			});
 
 			navigator.mediaSession.setActionHandler('previoustrack', () => {
 				playPrev();
+				updatePositionState();
 			});
 
 			navigator.mediaSession.setActionHandler('nexttrack', () => {
 				playNext();
+				updatePositionState();
 			});
 		}
 	}, [currentSong, songs]);
