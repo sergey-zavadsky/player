@@ -80,9 +80,9 @@ const Player = ({
 	const updatePositionState = () => {
 		if (audioRef.current) {
 			navigator.mediaSession.setPositionState({
-				duration: audioRef.current.duration,
+				duration: songInfo.durationTime,
 				playbackRate: audioRef.current.playbackRate,
-				position: audioRef.current.currentTime,
+				position: songInfo.currentTime,
 			});
 		}
 	};
