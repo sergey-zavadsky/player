@@ -153,7 +153,10 @@ const Player = ({
 		if (audioRef.current !== null) {
 			const newValue = parseFloat(e.target.value);
 			audioRef.current.currentTime = newValue;
-			setSongInfo({ ...songInfo, currentTime: newValue });
+			setSongInfo((prevSongInfo) => ({
+				...prevSongInfo,
+				currentTime: newValue,
+			}));
 		}
 	};
 
@@ -204,7 +207,7 @@ const Player = ({
 				<div className={`${styles['skip-back']}`}>
 					<FontAwesomeIcon
 						ref={skipBackRef}
-						size="4x"
+						size="2x"
 						icon={faAngleLeft}
 						onClick={() => playPrev()}
 						tabIndex={0}
@@ -216,7 +219,7 @@ const Player = ({
 					}`}
 				>
 					<FontAwesomeIcon
-						size="4x"
+						size="2x"
 						icon={!isPlaying ? faPlay : faPause}
 						onClick={() => playCurrent()}
 						tabIndex={0}
@@ -224,7 +227,7 @@ const Player = ({
 				</div>
 				<div className={styles['skip-forward']}>
 					<FontAwesomeIcon
-						size="4x"
+						size="2x"
 						icon={faAngleRight}
 						onClick={() => playNext()}
 						tabIndex={0}
