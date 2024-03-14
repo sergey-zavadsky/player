@@ -137,15 +137,19 @@ const Player = ({
 	}, [songInfo.currentTime]);
 
 	//* Time Handler
-	const timeUpdateHandler: React.ReactEventHandler<HTMLAudioElement> = (e) => {
-		const audioElement = e.target as unknown as HTMLAudioElement;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const audioUpdate = (audioElement: any) => {
 		const current = audioElement.currentTime;
 		const duration = audioElement.duration;
 		setSongInfo({
-			...songInfo,
 			currentTime: current || 0,
 			durationTime: duration || 0,
 		});
+	};
+
+	const timeUpdateHandler: React.ReactEventHandler<HTMLAudioElement> = (e) => {
+		const audioElement = e.target as unknown as HTMLAudioElement;
+		audioUpdate(audioElement);
 	};
 
 	//* Drag Handler
