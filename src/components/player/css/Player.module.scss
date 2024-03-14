@@ -31,6 +31,9 @@
 
 .toggle-play,
 .toggle-pause {
+	justify-content: center;
+	align-items: center;
+	display: flex;
 	padding: 0 calc(65px - 5vh) 0 calc(65px - 5vh);
 	flex-grow: 1;
 	max-width: 140px; /* Consider adjusting if icons are smaller/larger */

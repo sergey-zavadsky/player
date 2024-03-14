@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './App.css';
+import './App.module.scss';
 import { useRecoilState } from 'recoil';
 import { currentSongAtom } from '../src/atoms/songState';
 import Song from './components/player/Song/Song';
