@@ -73,6 +73,7 @@ const Player = ({
 	const [songInfo, setSongInfo] = useState({
 		currentTime: 0,
 		durationTime: 0,
+		stoppedTime: 0,
 	});
 
 	//* Handle mobile apps playing window
@@ -81,8 +82,10 @@ const Player = ({
 		if (audioRef.current) {
 			navigator.mediaSession.setPositionState({
 				duration: songInfo.durationTime,
-				playbackRate: audioRef.current.playbackRate,
-				position: songInfo.currentTime,
+				position:
+					songInfo.stoppedTime > 0
+						? songInfo.stoppedTime
+						: songInfo.currentTime,
 			});
 		}
 	};
@@ -111,17 +114,29 @@ const Player = ({
 					audioRef.current.pause();
 					setPlaying(false);
 					updatePositionState();
+					setSongInfo((prevSongInfo) => ({
+						...prevSongInfo,
+						stoppedTime: audioRef.current.currentTime,
+					}));
 				}
 			});
 
 			navigator.mediaSession.setActionHandler('previoustrack', () => {
 				playPrev();
 				updatePositionState();
+				setSongInfo((prevSongInfo) => ({
+					...prevSongInfo,
+					currentTime: 0,
+				}));
 			});
 
 			navigator.mediaSession.setActionHandler('nexttrack', () => {
 				playNext();
 				updatePositionState();
+				setSongInfo((prevSongInfo) => ({
+					...prevSongInfo,
+					currentTime: 0,
+				}));
 			});
 		}
 	}, [currentSong, songs]);
@@ -141,10 +156,11 @@ const Player = ({
 	const audioUpdate = (audioElement: any) => {
 		const current = audioElement.currentTime;
 		const duration = audioElement.duration;
-		setSongInfo({
+		setSongInfo((prevSongInfo) => ({
+			...prevSongInfo,
 			currentTime: current || 0,
 			durationTime: duration || 0,
-		});
+		}));
 	};
 
 	const timeUpdateHandler: React.ReactEventHandler<HTMLAudioElement> = (e) => {
