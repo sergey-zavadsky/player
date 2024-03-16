@@ -114,10 +114,10 @@ const Player = ({
 					audioRef.current.pause();
 					setPlaying(false);
 					updatePositionState();
-					setSongInfo((prevSongInfo) => ({
-						...prevSongInfo,
-						stoppedTime: audioRef.current.currentTime,
-					}));
+					// setSongInfo((prevSongInfo) => ({
+					// 	...prevSongInfo,
+					// 	stoppedTime: audioRef.current.currentTime,
+					// }));
 				}
 			});
 
