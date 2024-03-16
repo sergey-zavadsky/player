@@ -55,7 +55,7 @@ function App() {
 		MozBackgroundSize: 'cover', // For Firefox
 		OBackgroundSize: 'cover', // For Opera
 		msBackgroundSize: 'cover', // For Edge
-		transition: 'background-image 1s ease',
+		// transition: 'background-image 1s ease',
 		position: 'absolute',
 	} as React.CSSProperties;
 
