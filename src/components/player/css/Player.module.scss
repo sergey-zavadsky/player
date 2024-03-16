@@ -1,3 +1,7 @@
+:root {
+	--buttonOnClickSize: 0.75;
+}
+
 .time-control {
 	display: block;
 	justify-content: space-between;
@@ -19,13 +23,13 @@
 .left,
 .middle,
 .right {
-	display: inline-block; /* Display the paragraphs as inline-block */
-	vertical-align: middle; /* Vertically align them in the middle */
+	display: inline-block;
+	vertical-align: middle;
 }
 
 .play-control {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	justify-items: center;
 	align-items: center;
 }
@@ -35,9 +39,9 @@
 	justify-content: center;
 	align-items: center;
 	display: flex;
-	padding: 0 calc(65px - 5vh) 0 calc(65px - 5vh);
+	// padding: 0 calc(65px - 5vh) 0 calc(65px - 5vh);
 	flex-grow: 1;
-	max-width: 140px; /* Consider adjusting if icons are smaller/larger */
+	max-width: 140px;
 	width: 140px;
 }
 
@@ -66,11 +70,8 @@ input {
 	.toggle-pause,
 	.skip-back,
 	.skip-forward {
-		&:hover {
-			transform: scale(1.1);
-		}
 		&:active {
-			transform: scale(1);
+			transform: scale(var(--buttonOnClickSize));
 		}
 	}
 }
@@ -90,7 +91,7 @@ input {
 	.skip-back,
 	.skip-forward {
 		&:active {
-			transform: scale(1.1);
+			transform: scale(var(--buttonOnClickSize));
 		}
 	}
 }

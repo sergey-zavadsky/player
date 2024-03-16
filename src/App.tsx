@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { preload } from 'react-dom';
 import './App.module.scss';
 import { useRecoilState } from 'recoil';
 import { currentSongAtom } from '../src/atoms/songState';
@@ -7,6 +8,10 @@ import data from '../src/util/index';
 
 function App() {
 	const [isCurrentIndex] = useRecoilState(currentSongAtom);
+	const [trackPos, setTrackPos] = useState({
+		nextTrack: 0,
+		prevTrack: 0,
+	});
 	const [songs] = useState(data);
 
 	useEffect(() => {
@@ -17,12 +22,18 @@ function App() {
 	}, []);
 
 	//! TODO Add ease animation to background change
-	// const changeBackground = () => {
-	// 	const next = (isCurrentIndex + 1) % songs.length;
-	// 	console.log(`current: ${isCurrentIndex}`);
-	// 	console.log(`next: ${next}`);
-	// 	return next;
-	// };
+	const changeBackgroundPos = () => {
+		const nextTrack = (isCurrentIndex + 1) % songs.length;
+		const prevTrack = (isCurrentIndex - 1) % songs.length;
+
+		const latestTrackInArray = songs.lastIndexOf(songs.at(-1));
+
+		if (prevTrack === -1) {
+			setTrackPos({ nextTrack: nextTrack, prevTrack: latestTrackInArray });
+		} else {
+			setTrackPos({ nextTrack: nextTrack, prevTrack: prevTrack });
+		}
+	};
 
 	const backgroundImageStyle = {
 		backgroundImage: `url(${songs[isCurrentIndex].cover})`,
@@ -30,13 +41,22 @@ function App() {
 		width: '100%',
 		height: '100%',
 		backgroundSize: 'cover',
-		// backgroundColor: 'rgba(255, 255, 255, 0.25)',
-		// Vendor prefixes for broader browser support
 		WebkitBackgroundSize: 'cover', // For Safari and Chrome
 		MozBackgroundSize: 'cover', // For Firefox
 		OBackgroundSize: 'cover', // For Opera
 		msBackgroundSize: 'cover', // For Edge
+		transition: 'background-image 1s ease',
+		position: 'absolute',
 	};
+
+	useEffect(() => {
+		changeBackgroundPos();
+		// backgroundImageStyle = (prev) => ({
+		// 	...prev,
+		// 	backgroundImage: '2',
+		// 	transition: 'background-color 2s ease-out',
+		// });
+	}, [isCurrentIndex]);
 
 	return (
 		<div style={backgroundImageStyle}>
