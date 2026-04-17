@@ -4,6 +4,13 @@ import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [react(), ViteImageOptimizer()],
+	plugins: [
+		react({
+			babel: {
+				plugins: [['babel-plugin-react-compiler', { target: '19' }]],
+			},
+		}),
+		ViteImageOptimizer(),
+	],
 	base: '/player/',
 });

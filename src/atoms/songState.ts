@@ -1,16 +1,14 @@
-import { atom } from 'recoil';
+import { createContext, use } from 'react';
 
-export const songState = atom({
-	key: 'LOADING',
-	default: false,
-});
+export type PlayerStore = {
+	currentIndex: number;
+	setCurrentIndex: (index: number) => void;
+};
 
-export const currentSongAtom = atom({
-	key: 'CURRENT',
-	default: 0,
-});
+export const PlayerContext = createContext<PlayerStore | null>(null);
 
-export const songsLengthAtom = atom({
-	key: 'LENGTH',
-	default: 0,
-});
+export const usePlayer = (): PlayerStore => {
+	const ctx = use(PlayerContext);
+	if (!ctx) throw new Error('usePlayer must be used within <PlayerContext>');
+	return ctx;
+};

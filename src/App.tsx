@@ -1,14 +1,11 @@
-import { useState, useEffect } from 'react';
-// import { preload } from 'react-dom';
+import { useEffect, useState } from 'react';
 import './App.module.scss';
-import { useRecoilState } from 'recoil';
-import { currentSongAtom } from '../src/atoms/songState';
+import { PlayerContext } from './atoms/songState';
 import Song from './components/player/Song/Song';
-import data from '../src/util/index';
+import songs from './util';
 
 function App() {
-	const [isCurrentIndex] = useRecoilState(currentSongAtom);
-	const [songs] = useState(data);
+	const [currentIndex, setCurrentIndex] = useState(0);
 
 	useEffect(() => {
 		document.body.style.overflow = 'hidden';
@@ -17,52 +14,21 @@ function App() {
 		};
 	}, []);
 
-	//! TODO Add ease animation to background change + IMGpreLoad
-	// const [trackPos, setTrackPos] = useState({
-	// 	nextTrack: 0,
-	// 	prevTrack: 0,
-	// });
-
-	// const changeBackgroundPos = () => {
-	// 	const nextTrack = (isCurrentIndex + 1) % songs.length;
-	// 	const prevTrack = (isCurrentIndex - 1) % songs.length;
-
-	// 	const latestTrackInArray = songs.lastIndexOf(songs.at(-1));
-
-	// 	if (prevTrack === -1) {
-	// 		setTrackPos({ nextTrack: nextTrack, prevTrack: latestTrackInArray });
-	// 	} else {
-	// 		setTrackPos({ nextTrack: nextTrack, prevTrack: prevTrack });
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	changeBackgroundPos();
-	// 	// backgroundImageStyle = (prev) => ({
-	// 	// 	...prev,
-	// 	// 	backgroundImage: '2',
-	// 	// 	transition: 'background-color 2s ease-out',
-	// 	// });
-	// }, [isCurrentIndex]);
-
-	const backgroundImageStyle = {
-		backgroundImage: `url(${songs[isCurrentIndex].cover})`,
+	const backgroundImageStyle: React.CSSProperties = {
+		backgroundImage: `url(${songs[currentIndex].cover})`,
 		backgroundRepeat: 'no-repeat',
+		backgroundSize: 'cover',
 		width: '100%',
 		height: '100%',
-		backgroundSize: 'cover',
-		WebkitBackgroundSize: 'cover', // For Safari and Chrome
-		MozBackgroundSize: 'cover', // For Firefox
-		OBackgroundSize: 'cover', // For Opera
-		msBackgroundSize: 'cover', // For Edge
-		// transition: 'background-image 1s ease',
 		position: 'absolute',
-	} as React.CSSProperties;
+	};
 
 	return (
-		<div style={backgroundImageStyle}>
-			<Song songs={songs} />
-		</div>
+		<PlayerContext value={{ currentIndex, setCurrentIndex }}>
+			<div style={backgroundImageStyle}>
+				<Song songs={songs} />
+			</div>
+		</PlayerContext>
 	);
 }
 
