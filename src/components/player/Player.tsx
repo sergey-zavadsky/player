@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import type { RefObject } from 'react';
 import { preload } from 'react-dom';
 import styles from './Player.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,27 +12,74 @@ import {
 import { usePlayer } from '../../atoms/songState';
 import type { ChillHopTrack } from '../../util';
 
-type SongInfo = {
-	currentTime: number;
-	durationTime: number;
-};
-
 const formatTime = (time: number) =>
 	`${Math.floor(time / 60)}:${`0${Math.floor(time % 60)}`.slice(-2)}`;
 
-const Player = ({ songs }: { songs: ChillHopTrack[] }) => {
+// Subscribe a component to the audio element's currentTime without making
+// the parent re-render on every timeupdate (~4 Hz).
+const useAudioCurrentTime = (
+	audioRef: RefObject<HTMLAudioElement | null>,
+): number =>
+	useSyncExternalStore(
+		(onChange) => {
+			const audio = audioRef.current;
+			if (!audio) return () => {};
+			audio.addEventListener('timeupdate', onChange);
+			audio.addEventListener('seeking', onChange);
+			return () => {
+				audio.removeEventListener('timeupdate', onChange);
+				audio.removeEventListener('seeking', onChange);
+			};
+		},
+		() => audioRef.current?.currentTime ?? 0,
+		() => 0,
+	);
+
+type TimeControlProps = {
+	audioRef: RefObject<HTMLAudioElement | null>;
+	duration: number;
+};
+
+const TimeControl = ({ audioRef, duration }: TimeControlProps) => {
+	const currentTime = useAudioCurrentTime(audioRef);
+
+	const onSeek: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+		const audio = audioRef.current;
+		if (!audio) return;
+		audio.currentTime = parseFloat(e.target.value);
+	};
+
+	return (
+		<div className={styles['time-control']}>
+			<p className={styles.left}>{formatTime(currentTime)}</p>
+			<input
+				className={styles.middle}
+				min={0}
+				step={1}
+				max={duration || 0}
+				value={currentTime}
+				type="range"
+				onChange={onSeek}
+			/>
+			<p className={styles.right}>{formatTime(duration)}</p>
+		</div>
+	);
+};
+
+type PlayerProps = {
+	songs: ChillHopTrack[];
+	onAudioError?: () => void;
+};
+
+const Player = ({ songs, onAudioError }: PlayerProps) => {
 	const { currentIndex, setCurrentIndex } = usePlayer();
 	const currentSong = songs[currentIndex];
 	const lastIndex = songs.length - 1;
 
 	const audioRef = useRef<HTMLAudioElement>(null);
 	const [isPlaying, setPlaying] = useState(false);
-	const [songInfo, setSongInfo] = useState<SongInfo>({
-		currentTime: 0,
-		durationTime: 0,
-	});
+	const [duration, setDuration] = useState(0);
 
-	// React 19: preload neighbouring cover art so background swaps are instant.
 	useEffect(() => {
 		const next = songs[(currentIndex + 1) % songs.length];
 		const prev = songs[(currentIndex - 1 + songs.length) % songs.length];
@@ -42,12 +90,12 @@ const Player = ({ songs }: { songs: ChillHopTrack[] }) => {
 	const togglePlay = () => {
 		const audio = audioRef.current;
 		if (!audio) return;
-		if (isPlaying) {
-			audio.pause();
-			setPlaying(false);
-		} else {
+		if (audio.paused) {
 			audio.play();
 			setPlaying(true);
+		} else {
+			audio.pause();
+			setPlaying(false);
 		}
 	};
 
@@ -61,7 +109,6 @@ const Player = ({ songs }: { songs: ChillHopTrack[] }) => {
 		setPlaying(true);
 	};
 
-	// MediaSession metadata + hardware controls.
 	useEffect(() => {
 		if (!('mediaSession' in navigator)) return;
 
@@ -77,22 +124,16 @@ const Player = ({ songs }: { songs: ChillHopTrack[] }) => {
 		navigator.mediaSession.setActionHandler('pause', togglePlay);
 		navigator.mediaSession.setActionHandler('previoustrack', playPrev);
 		navigator.mediaSession.setActionHandler('nexttrack', playNext);
-	});
+	}, [currentSong, currentIndex, isPlaying]);
 
-	const timeUpdateHandler: React.ReactEventHandler<HTMLAudioElement> = (e) => {
-		const { currentTime, duration } = e.currentTarget;
-		setSongInfo({
-			currentTime: currentTime || 0,
-			durationTime: duration || 0,
-		});
+	const onLoadedMetadata: React.ReactEventHandler<HTMLAudioElement> = (e) => {
+		setDuration(e.currentTarget.duration || 0);
+		if (isPlaying) e.currentTarget.play();
 	};
 
-	const dragHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-		const audio = audioRef.current;
-		if (!audio) return;
-		const newValue = parseFloat(e.target.value);
-		audio.currentTime = newValue;
-		setSongInfo((prev) => ({ ...prev, currentTime: newValue }));
+	const handleAudioError: React.ReactEventHandler<HTMLAudioElement> = () => {
+		onAudioError?.();
+		playNext();
 	};
 
 	const onKeyDownHandler: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
@@ -102,28 +143,10 @@ const Player = ({ songs }: { songs: ChillHopTrack[] }) => {
 		if (e.key === ' ' || e.key === 'Enter') togglePlay();
 	};
 
-	// Autoplay whenever the track changes while playing.
-	useEffect(() => {
-		const audio = audioRef.current;
-		if (!audio) return;
-		if (isPlaying) audio.play();
-	}, [currentIndex, isPlaying]);
-
 	return (
 		<div className={styles.Player} tabIndex={0} onKeyDown={onKeyDownHandler}>
-			<div className={styles['time-control']}>
-				<p className={styles.left}>{formatTime(songInfo.currentTime)}</p>
-				<input
-					className={styles.middle}
-					min={0}
-					step={10}
-					max={songInfo.durationTime}
-					value={songInfo.currentTime}
-					type="range"
-					onChange={dragHandler}
-				/>
-				<p className={styles.right}>{formatTime(songInfo.durationTime)}</p>
-			</div>
+			<TimeControl audioRef={audioRef} duration={duration} />
+
 			<div className={styles['play-control']}>
 				<div className={styles['skip-back']}>
 					<FontAwesomeIcon
@@ -156,9 +179,9 @@ const Player = ({ songs }: { songs: ChillHopTrack[] }) => {
 			<audio
 				ref={audioRef}
 				src={currentSong.audio}
-				onTimeUpdate={timeUpdateHandler}
-				onLoadedMetadata={timeUpdateHandler}
+				onLoadedMetadata={onLoadedMetadata}
 				onEnded={playNext}
+				onError={handleAudioError}
 			/>
 		</div>
 	);
